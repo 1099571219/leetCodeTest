@@ -10,15 +10,20 @@
  * @return {number}
  */
 var singleNumber = function (nums) {
-
-    for (let i = 0; i < nums.length; i++) {
-        const num =  nums.splice(i,1)
-        console.log(nums);
-        console.log(num);
-        if(!nums.includes(num))return num;
-        i--;
+    const base = nums.splice(0,1)[0];
+    if(!cache){
+        cache = [];
     }
-    return undefined;
+    if(cache.includes(base)){
+        return singleNumber(nums,cache);
+    };
+
+    if(nums.includes(base)){
+        cache.push(base);
+        return singleNumber(nums,cache);
+    }else{
+        return base;
+    }
 };
 singleNumber([2,2,1])
 // @lc code=end
