@@ -12,14 +12,29 @@
 
 var maxProfit = function (prices) {
     let maxProfit = 0;
-    for (let i = 0; i < prices.length-1; i++) {
-        let profit =0; 
-        for (let j = i+1; j < prices.length; j++) {
-            prices[j] > profit && (profit=prices[j])
-        }
-        profit-prices[i]> maxProfit && (maxProfit = (max-prices[i]))
-    }
+    let minIndex = prices.length;
+    let max = 0;
+    let min;
+    let cache = JSON.parse(JSON.stringify(prices));
+    for (let i = prices.length - 1; i >= 0; i--) {
+        if (i >= minIndex && prices[i] <= max) continue;
+        max = prices[i];
+        cache.splice(i);
+        if (cache.length < 1) break;
+        i < minIndex && (min = Math.min(...cache), index = prices.indexOf(min));
+
+        max - min>maxProfit && (maxProfit=(max - min));
+    };
+    // for(let i =prices.length-1; i >0; i--) {
+    //     const targetMax =prices[i];
+    //     for(let j =i-1;j>=0;j--){
+    //         if(targetMax-prices[j]>maxProfit){
+    //             maxProfit = targetMax-prices[j];
+    //         }
+    //     }
+    // }
+
     return maxProfit;
-};
+}
 // @lc code=end
 
